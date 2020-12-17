@@ -4,11 +4,11 @@ public class Keyword
     public int count;
     public float weight;
     
-    public Keyword(String name,int count,float weight)
+    public Keyword(String name, int count, float weight)
     {
 		this.name = name;
-		this.count =count;
-		this.weight =weight;
+		this.count = count;
+		this.weight = weight;
     }
     
     @Override

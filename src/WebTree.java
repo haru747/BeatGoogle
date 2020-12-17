@@ -17,13 +17,11 @@ public class WebTree
 	
 	private void setPostOrderScore(WebNode startNode, ArrayList<Keyword> keywords) throws IOException
 	{
-		//4. compute the score of children nodes postorder
 		for(WebNode child : startNode.children)
 		{
 			child.setNodeScore(keywords);
 		}
 		
-		//5.setNode score of startNode
 		startNode.setNodeScore(keywords);
 	}
 	
@@ -41,30 +39,18 @@ public class WebTree
 			System.out.print("\n" + repeat("\t", nodeDepth - 1));
 		}
 		
-		//print "("
 		System.out.print("(");
-		
-		//print "name","score"
 		System.out.print(startNode.webPage.name + "," + startNode.nodeScore);
-		
-		//7.print child preorder
 		for(WebNode child : startNode.children)
 		{
 			eularPrintTree(child);
 		}
 		
-		//print ")"
 		System.out.print(")");
-		
-		/*for example
-		 (Publication,286.2)
-		*/
-		
 		if(startNode.isTheLastChild()) 
 		{
 			System.out.print("\n" + repeat("\t", nodeDepth - 2));
-		}
-		
+		}		
 	}
 	
 	private String repeat(String str, int repeat)
