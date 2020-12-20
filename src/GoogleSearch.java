@@ -42,7 +42,7 @@ public class GoogleSearch
 	
 	public HashMap<String, String> query() throws IOException
 	{
-		if(content==null)
+		if(content == null)
 		{
 			content= fetchContent();
 		}
@@ -52,16 +52,12 @@ public class GoogleSearch
 		Document doc = Jsoup.parse(content);
 		System.out.println(doc.text());
 		Elements lis = doc.select("div");
-		//System.out.println(lis);
 		lis = lis.select(".kCrYT");
-		//System.out.println(lis.size());
 				
 		for(Element li : lis)
 		{
 			try 
 			{
-//				System.out.println(li);
-//				System.out.println("\n\n\n\n\n\n");
 				String citeUrl = li.select("a").get(0).attr("href");
 				String title = li.select("a").get(0).select(".vvjwJb").text();
 				System.out.println(title + "," + citeUrl);
