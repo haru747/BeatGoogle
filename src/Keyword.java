@@ -3,16 +3,23 @@ public class Keyword
 {
 	public String name;
     public int count;
-    public float weight;
+    public double weight;
     
-    public Keyword(String name, int count, float weight)
+    public Keyword(String name, int count, double weight)
     {
 		this.name = name;
 		this.count = count;
 		this.weight = weight;
     }
     
-    @Override
+    public Keyword(String name, double weight) 
+    {
+		this.name = name;
+		this.weight = weight;
+		this.count = 0;
+	}
+
+	@Override
     public String toString()
     {
     	return "[" + name + "," + count + "," + weight + "]";
@@ -28,8 +35,13 @@ public class Keyword
     	return name;
     }
     
-    public float getWeight()
+    public double getWeight()
     {
     	return weight;
+    }
+    
+    public void setCount(int count) 
+    {
+    	this.count = count;
     }
 }
