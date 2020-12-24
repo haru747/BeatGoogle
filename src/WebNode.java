@@ -45,6 +45,7 @@ public class WebNode
 	{
 		int retVal = 1;
 		WebNode currNode = this;
+		
 		while(currNode.parent != null)
 		{
 			retVal++;

@@ -33,6 +33,7 @@ public class GoogleSearch
 		InputStreamReader inReader = new InputStreamReader(in, "utf-8");
 		BufferedReader bufReader = new BufferedReader(inReader);
 		String line = null; 
+		
 		while((line=bufReader.readLine()) != null)
 		{
 			retVal += line;
@@ -60,7 +61,7 @@ public class GoogleSearch
 			{
 				String citeUrl = li.select("a").get(0).attr("href");
 				String title = li.select("a").get(0).select(".vvjwJb").text();
-				System.out.println(title + "," + citeUrl);
+				System.out.println(title);
 				retVal.put(title, citeUrl);
 			} 
 			
@@ -71,4 +72,6 @@ public class GoogleSearch
 		}
 		return retVal;
 	}
+	
+	
 }

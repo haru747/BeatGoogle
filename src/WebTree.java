@@ -41,6 +41,7 @@ public class WebTree
 		
 		System.out.print("(");
 		System.out.print(startNode.webPage.name + "," + startNode.nodeScore);
+		
 		for(WebNode child : startNode.children)
 		{
 			eularPrintTree(child);
