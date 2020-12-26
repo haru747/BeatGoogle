@@ -1,6 +1,5 @@
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Main 
 {
@@ -30,38 +29,23 @@ public class Main
 			System.out.println(searchEngine.query());
 			System.out.println("------------------------------------------");	
 			
-			for(int i = 1; i <= searchEngine.query().size(); i++) 
+			for(String title: searchEngine.query().keySet()) 
 			{
-				
-			}
-			WebPage rootPage = new WebPage("http://soslab.nccu.edu.tw/Welcome.html", "Soslab");		
-			WebTree tree = new WebTree(rootPage);
-
-			tree.root.addChild(new WebNode(new WebPage("http://soslab.nccu.edu.tw/Publications.html","Publication")));
-			tree.root.addChild(new WebNode(new WebPage("http://soslab.nccu.edu.tw/Projects.html","Projects")));
-			tree.root.children.get(1).addChild(new WebNode(new WebPage("https://vlab.cs.ucsb.edu/stranger/", "Stranger")));
-			tree.root.addChild(new WebNode(new WebPage("http://soslab.nccu.edu.tw/Members.html", "MEMBER")));
-			tree.root.addChild(new WebNode(new WebPage("http://www3.nccu.edu.tw/~yuf/course.htm","Course")));
-
-			Scanner scanner = new Scanner(System.in);
-			while(scanner.hasNextLine())
-			{
-				int numOfKeywords = scanner.nextInt();//2
-				ArrayList<Keyword> keywords = new ArrayList<Keyword>();
-				
-				for(int i = 0; i < numOfKeywords; i++)
-				{
-					String name = scanner.next();//Yu
-					double weight = scanner.nextDouble();//1.2
-					Keyword k = new Keyword(name, weight);//store key
-					keywords.add(k);
-				}
-				
+				String webUrl = searchEngine.query().get(title);
+				WebPage rootPage = new WebPage(webUrl.substring(6), title);
+				WebTree tree = new WebTree(rootPage);
+/*
+				tree.root.addChild(new WebNode(new WebPage("http://soslab.nccu.edu.tw/Publications.html","Publication")));
+				tree.root.addChild(new WebNode(new WebPage("http://soslab.nccu.edu.tw/Projects.html","Projects")));
+				tree.root.children.get(1).addChild(new WebNode(new WebPage("https://vlab.cs.ucsb.edu/stranger/", "Stranger")));
+				tree.root.addChild(new WebNode(new WebPage("http://soslab.nccu.edu.tw/Members.html", "MEMBER")));
+				tree.root.addChild(new WebNode(new WebPage("http://www3.nccu.edu.tw/~yuf/course.htm","Course")));
+*/				
 				tree.setPostOrderScore(kLst);
 				tree.eularPrintTree();
 			}
-			scanner.close();
 		} 
+		
 		catch (IOException e)
 		{
 			// TODO Auto-generated catch block
