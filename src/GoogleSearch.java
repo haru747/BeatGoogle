@@ -61,7 +61,7 @@ public class GoogleSearch
 			{
 				String citeUrl = li.select("a").get(0).attr("href");
 				String title = li.select("a").get(0).select(".vvjwJb").text();
-				System.out.println(title);
+				System.out.println(title + ", " + citeUrl);
 				retVal.put(title, citeUrl);
 			} 
 			

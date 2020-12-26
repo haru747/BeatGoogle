@@ -1,6 +1,8 @@
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.net.ssl.SSLHandshakeException;
+
 public class Main 
 {
 
@@ -25,28 +27,42 @@ public class Main
 			
 		try 
 		{
-			GoogleSearch searchEngine = new GoogleSearch("聖誕節景點");
-			System.out.println(searchEngine.query());
+			GoogleSearch google = new GoogleSearch("聖誕節景點");
+			System.out.println(google.query());
 			System.out.println("------------------------------------------");	
 			
-			for(String title: searchEngine.query().keySet()) 
+			for(String title: google.query().keySet()) 
 			{
-				String webUrl = searchEngine.query().get(title);
-				WebPage rootPage = new WebPage(webUrl.substring(6), title);
-				WebTree tree = new WebTree(rootPage);
-/*
-				tree.root.addChild(new WebNode(new WebPage("http://soslab.nccu.edu.tw/Publications.html","Publication")));
+				String webUrl = google.query().get(title);
+
+				if(!webUrl.contains("welcome")) 
+				{
+					WebPage rootPage = new WebPage(webUrl.substring(7, webUrl.indexOf("&")), title);
+					WebTree tree = new WebTree(rootPage);
+					
+					tree.setPostOrderScore(kLst);
+					tree.eularPrintTree();
+					System.out.println();
+				}
+				
+				
+				
+				//build childnode
+/*				tree.root.addChild(new WebNode(new WebPage("http://soslab.nccu.edu.tw/Publications.html","Publication")));
 				tree.root.addChild(new WebNode(new WebPage("http://soslab.nccu.edu.tw/Projects.html","Projects")));
 				tree.root.children.get(1).addChild(new WebNode(new WebPage("https://vlab.cs.ucsb.edu/stranger/", "Stranger")));
 				tree.root.addChild(new WebNode(new WebPage("http://soslab.nccu.edu.tw/Members.html", "MEMBER")));
 				tree.root.addChild(new WebNode(new WebPage("http://www3.nccu.edu.tw/~yuf/course.htm","Course")));
-*/				
-				tree.setPostOrderScore(kLst);
-				tree.eularPrintTree();
+*/													
+				
 			}
 		} 
 		
-		catch (IOException e)
+		catch(SSLHandshakeException e) 
+		{
+//			e.printStackTrace();
+		}
+		catch(IOException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
