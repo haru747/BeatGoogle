@@ -9,7 +9,7 @@ public class Main
 	public static void main(String[] args) throws IOException 
 	{
 		// TODO Auto-generated method stub
-		
+
 		ArrayList <Keyword> kLst = new ArrayList<Keyword>();
 		kLst.add(new Keyword("聖誕節", 5));
 		kLst.add(new Keyword("耶誕節", 5));
@@ -25,24 +25,39 @@ public class Main
 		kLst.add(new Keyword("中部", 1.5));
 		kLst.add(new Keyword("南部", 1.5));
 			
-		try 
+		System.out.println("Keywords for 聖誕節景點");
+		for(Keyword k: kLst) 
 		{
-			GoogleSearch google = new GoogleSearch("聖誕節景點");
-			System.out.println(google.query());
-			System.out.println("------------------------------------------");	
-			
+			System.out.println(k.toString1());
+		}
+		
+		System.out.println("\n------------------------------------------\n");
+		GoogleSearch google = new GoogleSearch("聖誕節景點");
+		System.out.println(google.query());
+		System.out.println("\n------------------------------------------\n");
+		
+		try 
+		{			
 			for(String title: google.query().keySet()) 
 			{
 				String webUrl = google.query().get(title);
 
 				if(!webUrl.contains("welcome")) 
 				{
-					WebPage rootPage = new WebPage(webUrl.substring(7, webUrl.indexOf("&")), title);
-					WebTree tree = new WebTree(rootPage);
+					WebPage rootPage = null;
+					if(webUrl.contains("&")) 
+					{
+						rootPage = new WebPage(webUrl.substring(7, webUrl.indexOf("&")), title);
+					}
+					else if(webUrl.contains("%")) 
+					{
+						rootPage = new WebPage(webUrl.substring(7, webUrl.indexOf("%")), title);
+					}
 					
+					WebTree tree = new WebTree(rootPage);
 					tree.setPostOrderScore(kLst);
 					tree.eularPrintTree();
-					System.out.println();
+					System.out.println("\n------------------------------------------\n");
 				}
 				
 				
@@ -57,11 +72,7 @@ public class Main
 				
 			}
 		} 
-		
-		catch(SSLHandshakeException e) 
-		{
-//			e.printStackTrace();
-		}
+
 		catch(IOException e)
 		{
 			// TODO Auto-generated catch block

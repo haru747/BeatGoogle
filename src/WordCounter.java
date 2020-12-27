@@ -5,6 +5,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
+import javax.net.ssl.SSLHandshakeException;
+
 public class WordCounter
 {
 	private String urlStr;
@@ -15,23 +17,34 @@ public class WordCounter
     	this.urlStr = urlStr;
     }
     
-    private String fetchContent() throws IOException
+    private String fetchContent() throws IOException, SSLHandshakeException
     {
-		URL url = new URL(this.urlStr);
-		URLConnection conn = url.openConnection();
-		InputStream in = conn.getInputStream();
-		BufferedReader br = new BufferedReader(new InputStreamReader(in));
-	
-		String retVal = "";
-	
-		String line = null;
-		
-		while ((line = br.readLine()) != null)
-		{
-		    retVal = retVal + line + "\n";
-		}
-	
-		return retVal;
+    	try 
+    	{
+    		URL url = new URL(this.urlStr);
+    		URLConnection conn = url.openConnection();
+    		InputStream in = conn.getInputStream();
+    		BufferedReader br = new BufferedReader(new InputStreamReader(in));
+    	
+    		String retVal = "";
+    	
+    		String line = null;
+    		
+    		while ((line = br.readLine()) != null)
+    		{
+    		    retVal = retVal + line + "\n";
+    		}
+    	
+    		return retVal;
+    	}
+    	catch(SSLHandshakeException e) 
+    	{
+    		return "SSL";
+    	}
+		catch(IOException e) 
+    	{
+			return "IO";
+    	}
     }
     
     public int countKeyword(String keyword) throws IOException
@@ -52,6 +65,7 @@ public class WordCounter
 		{
 		    retVal++;
 		    fromIdx = found + keyword.length();
+		    
 		}
 	
 		return retVal;

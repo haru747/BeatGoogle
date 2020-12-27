@@ -19,10 +19,14 @@ public class Keyword
 		this.count = 0;
 	}
 
-	@Override
-    public String toString()
+    public String toString1()
     {
-    	return "[" + name + "," + count + "," + weight + "]";
+    	return "[" + name + ", " + weight + "]";
+    }
+    
+    public String toString2() 
+    {
+    	return "[" + name + ", " + count + ", " + weight + "]";
     }
     
     public int getCount()
