@@ -38,38 +38,49 @@ public class Main
 		
 		try 
 		{			
-			for(String title: google.query().keySet()) 
+			for(String titleA: google.query().keySet()) 
 			{
-				String webUrl = google.query().get(title);
+				String webUrl = google.query().get(titleA);
 
 				if(!webUrl.contains("welcome")) 
 				{
 					WebPage rootPage = null;
 					if(webUrl.contains("&")) 
 					{
-						rootPage = new WebPage(webUrl.substring(7, webUrl.indexOf("&")), title);
+						webUrl = webUrl.substring(7, webUrl.indexOf("&"));
 					}
 					else if(webUrl.contains("%")) 
 					{
-						rootPage = new WebPage(webUrl.substring(7, webUrl.indexOf("%")), title);
+						webUrl = webUrl.substring(7, webUrl.indexOf("%"));
 					}
 					
+					rootPage = new WebPage(webUrl, titleA);
 					WebTree tree = new WebTree(rootPage);
+					
+					ChildPageQuery childQ = new ChildPageQuery(webUrl);
+					if(childQ.query() != null) 
+					{			
+						for(String titleB: childQ.query().keySet()) 
+						{
+							String childUrl = childQ.query().get(titleB);
+							
+							if(childUrl.contains("&")) 
+							{
+								childUrl = childUrl.substring(7, childUrl.indexOf("&"));
+							}
+							else if(webUrl.contains("%")) 
+							{
+								childUrl = childUrl.substring(7, childUrl.indexOf("%"));
+							}
+							
+							tree.root.addChild(new WebNode(new WebPage(childUrl, titleB)));
+						}
+					}
+				
 					tree.setPostOrderScore(kLst);
 					tree.eularPrintTree();
 					System.out.println("\n------------------------------------------\n");
-				}
-				
-				
-				
-				//build childnode
-/*				tree.root.addChild(new WebNode(new WebPage("http://soslab.nccu.edu.tw/Publications.html","Publication")));
-				tree.root.addChild(new WebNode(new WebPage("http://soslab.nccu.edu.tw/Projects.html","Projects")));
-				tree.root.children.get(1).addChild(new WebNode(new WebPage("https://vlab.cs.ucsb.edu/stranger/", "Stranger")));
-				tree.root.addChild(new WebNode(new WebPage("http://soslab.nccu.edu.tw/Members.html", "MEMBER")));
-				tree.root.addChild(new WebNode(new WebPage("http://www3.nccu.edu.tw/~yuf/course.htm","Course")));
-*/													
-				
+				}		
 			}
 		} 
 
