@@ -4,7 +4,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-
 import javax.net.ssl.SSLHandshakeException;
 
 public class WordCounter
@@ -30,7 +29,7 @@ public class WordCounter
     	
     		String line = null;
     		
-    		while ((line = br.readLine()) != null)
+    		while((line = br.readLine()) != null)
     		{
     		    retVal = retVal + line + "\n";
     		}
@@ -49,7 +48,7 @@ public class WordCounter
     
     public int countKeyword(String keyword) throws IOException
     {
-		if (content == null)
+		if(content == null)
 		{
 		    content = fetchContent();
 		}
@@ -61,11 +60,10 @@ public class WordCounter
 		int fromIdx = 0;
 		int found = -1;
 	
-		while ((found = content.indexOf(keyword, fromIdx)) != -1)
+		while((found = content.indexOf(keyword, fromIdx)) != -1)
 		{
 		    retVal++;
-		    fromIdx = found + keyword.length();
-		    
+		    fromIdx = found + keyword.length();	    
 		}
 	
 		return retVal;

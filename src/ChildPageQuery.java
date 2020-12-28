@@ -4,8 +4,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.HashMap;
-
+import java.util.ArrayList;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -31,7 +30,7 @@ public class ChildPageQuery
 		InputStreamReader inReader = new InputStreamReader(in, "utf-8");
 		BufferedReader bufReader = new BufferedReader(inReader);
 		String line = null; 
-		
+			
 		while((line=bufReader.readLine()) != null)
 		{
 			retVal += line;
@@ -39,28 +38,34 @@ public class ChildPageQuery
 		return retVal;
 	}
 	
-	public HashMap<String, String> query() throws IOException
+	public ArrayList<String> query() throws IOException
 	{
 		if(content == null)
 		{
-			content= fetchContent();
+			content = fetchContent();
 		}
 
-		HashMap<String, String> retVal = new HashMap<String, String>();
+		ArrayList<String> retVal = new ArrayList<String>();
 		
 		Document doc = Jsoup.parse(content);
-		System.out.println(doc.text());
-		Elements lis = doc.select("div");
-		lis = lis.select(".kCrYT");
+		Elements lis = doc.select("a");
 				
 		for(Element li : lis)
 		{
 			try 
 			{
-				String citeUrl = li.select("a").get(0).attr("href");
-				String title = li.select("a").get(0).select(".vvjwJb").text();
-				System.out.println(title);
-				retVal.put(title, citeUrl);
+				String citeUrl = li.attr("href");
+				
+				if(citeUrl.contains("&")) 
+				{
+					citeUrl = citeUrl.substring(7, citeUrl.indexOf("&"));
+				}
+				else if(citeUrl.contains("%")) 
+				{
+					citeUrl = citeUrl.substring(7, citeUrl.indexOf("%"));
+				}
+				
+				retVal.add(citeUrl);
 			} 
 			
 			catch (IndexOutOfBoundsException e) 
@@ -68,6 +73,7 @@ public class ChildPageQuery
 //				e.printStackTrace();
 			}
 		}
+		
 		return retVal;
 	}
 }

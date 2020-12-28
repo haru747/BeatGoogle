@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -45,13 +44,12 @@ public class GoogleSearch
 	{
 		if(content == null)
 		{
-			content= fetchContent();
+			content = fetchContent();
 		}
 
 		HashMap<String, String> retVal = new HashMap<String, String>();
 		
 		Document doc = Jsoup.parse(content);
-		System.out.println(doc.text());
 		Elements lis = doc.select("div");
 		lis = lis.select(".kCrYT");
 				
@@ -61,8 +59,20 @@ public class GoogleSearch
 			{
 				String citeUrl = li.select("a").get(0).attr("href");
 				String title = li.select("a").get(0).select(".vvjwJb").text();
-				System.out.println(title);
-				retVal.put(title, citeUrl);
+				
+				if(!citeUrl.contains("welcome") && !citeUrl.contains("marieclaire") && !citeUrl.contains("ettoday") && !citeUrl.contains("storm") && !citeUrl.contains("mababy") && !citeUrl.contains("tech.yahoo")) 
+				{
+					if(citeUrl.contains("&")) 
+					{
+						citeUrl = citeUrl.substring(7, citeUrl.indexOf("&"));
+					}
+					else if(citeUrl.contains("%")) 
+					{
+						citeUrl = citeUrl.substring(7, citeUrl.indexOf("%"));
+					}
+					
+					retVal.put(title, citeUrl);
+				}				
 			} 
 			
 			catch (IndexOutOfBoundsException e) 
@@ -73,5 +83,24 @@ public class GoogleSearch
 		return retVal;
 	}
 	
-	
+	@Override
+	public String toString() 
+	{
+		String str = "";
+		try 
+		{			
+			for(String title: query().keySet()) 
+			{
+				str += title + "\n";
+			}
+			return str;
+		} 
+		catch (IOException e) 
+		{
+			// TODO Auto-generated catch block
+//			e.printStackTrace();
+		}
+		
+		return str;
+	}
 }
