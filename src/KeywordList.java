@@ -24,7 +24,6 @@ public class KeywordList
 	
 	public void printKeywordList(ArrayList<Keyword> kLst) 
 	{
-		System.out.println("Keyword for 聖誕節景點: ");
 		for(Keyword k: kLst) 
 		{
 			System.out.println(k.toString1());

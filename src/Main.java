@@ -1,4 +1,6 @@
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Main 
 {
@@ -6,16 +8,22 @@ public class Main
 	public static void main(String[] args) throws IOException 
 	{
 		// TODO Auto-generated method stub
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Please input the keyword: ");
+		String keyword = sc.next();
+		sc.close();
+	
 		KeywordList kLst = new KeywordList();	
+		System.out.println("-------------------------------------------------------\nRelative Word List: ");
 		kLst.printKeywordList(kLst.getKeywords());
+		System.out.print("-------------------------------------------------------\nValid Web Pages for Keyword [" + keyword + "]: \n");
+		GoogleSearch google = new GoogleSearch(keyword);
+		System.out.print(google.toString());
 		
-		System.out.println("\n------------------------------------------\n\nValid Web Pages:");
-		GoogleSearch google = new GoogleSearch("聖誕節景點");
-		System.out.println(google.toString());
-		System.out.println("------------------------------------------\n\nRating\n(Title, Total Child Pages, Total Root Page Score)");
+		ArrayList<WebNode> wLst = new ArrayList<WebNode>();	
 		
 		try 
-		{			
+		{		
 			for(String title: google.query().keySet()) 
 			{
 				String webUrl = google.query().get(title);	
@@ -33,9 +41,14 @@ public class Main
 					}
 						
 					tree.setPostOrderScore(kLst.getKeywords());
-					tree.printRootPage();
+					wLst.add(tree.root);
 				}
-			}				
+			}	
+			
+			WebRating rating = new WebRating(wLst);
+			rating.sort();
+			System.out.println("-------------------------------------------------------\n★★★Rating★★★\n(Title, Total Child Pages, Total Root Page Score)");
+			System.out.print(rating.output());
 		} 
 
 		catch(IOException e)

@@ -72,6 +72,7 @@ public class GoogleSearch
 					}
 					
 					retVal.put(title, citeUrl);
+					url = citeUrl;
 				}				
 			} 
 			
@@ -91,7 +92,7 @@ public class GoogleSearch
 		{			
 			for(String title: query().keySet()) 
 			{
-				str += title + "\n";
+				str += title + ", " + query().get(title) + "\n";
 			}
 			return str;
 		} 

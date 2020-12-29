@@ -56,16 +56,19 @@ public class ChildPageQuery
 			{
 				String citeUrl = li.attr("href");
 				
-				if(citeUrl.contains("&")) 
+				if(citeUrl.startsWith(url)) 
 				{
-					citeUrl = citeUrl.substring(7, citeUrl.indexOf("&"));
-				}
-				else if(citeUrl.contains("%")) 
-				{
-					citeUrl = citeUrl.substring(7, citeUrl.indexOf("%"));
-				}
-				
-				retVal.add(citeUrl);
+					if(citeUrl.contains("&")) 
+					{
+						citeUrl = citeUrl.substring(7, citeUrl.indexOf("&"));
+					}
+					else if(citeUrl.contains("%")) 
+					{
+						citeUrl = citeUrl.substring(7, citeUrl.indexOf("%"));
+					}
+					
+					retVal.add(citeUrl);
+				}				
 			} 
 			
 			catch (IndexOutOfBoundsException e) 

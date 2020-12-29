@@ -57,12 +57,7 @@ public class WebTree
 	
 	public void printRootPage() 
 	{
-		int childCount = 0;
-		for(WebNode child: root.children)
-		{
-			childCount++;
-		}
-		System.out.println("(" + root.webPage.name + ", " + childCount + ", " + root.nodeScore + ")");
+		System.out.println("(" + root.webPage.name + ", " + root.children.size() + ", " + root.nodeScore + ")");
 	}
 	
 	private String repeat(String str, int repeat)
